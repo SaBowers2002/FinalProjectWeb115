@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<!-- This is the place where it happens... -->
+
+<html>
+
+<head>
+    <title>Meal Plan</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+    <div class="container">
+        <div id="bannerdiv">
+            <img src="Images/Perfectly Portioned Fitness.png" alt="Banner" class="center">
+        </div>
+
+        <!-- USER INFO -->
+        <h2>User Information</h2>
+        <table>
+            <tr>
+                <th>Email:</th>
+                <td><span id="user-email"></span></td>
+
+                <th>Name:</th>
+                <td><span id="user-name"></span></td>
+
+                <th>Weekly Goal:</th>
+                <td><span id="user-weekly-goal"></span></td>
+            </tr>
+        </table>
+
+        <!-- MEAL PLAN INFO -->
+        <h2>Meal Plan</h2>
+        <table id="mealTable">
+            <tr>
+                <th>Day</th>
+                <th>Breakfast</th>
+                <th>Snack</th>
+                <th>Lunch</th>
+                <th>Snack (2)</th>
+                <th>Dinner</th>
+              </tr>
+              <tr>
+                <!-- This was painful to type out -->
+                <td>Monday</td>
+                <td><span id="monday-breakfast"></span></td>
+                <td><span id="monday-snack"></span></td>
+                <td><span id="monday-lunch"></span></td>
+                <td><span id="monday-snack2"></span></td>
+                <td><span id="monday-dinner"></span></td>
+              </tr>
+              <tr>
+                <td>Tuesday</td>
+                <td><span id="tuesday-breakfast"></span></td>
+                <td><span id="tuesday-snack"></span></td>
+                <td><span id="tuesday-lunch"></span></td>
+                <td><span id="tuesday-snack2"></span></td>
+                <td><span id="tuesday-dinner"></span></td>
+              </tr>
+              <tr>
+                <td>Wednesday</td>
+                <td><span id="wednesday-breakfast"></span></td>
+                <td><span id="wednesday-snack"></span></td>
+                <td><span id="wednesday-lunch"></span></td>
+                <td><span id="wednesday-snack2"></span></td>
+                <td><span id="wednesday-dinner"></span></td>
+              </tr>
+              <tr>
+                <td>Thursday</td>
+                <td><span id="thursday-breakfast"></span></td>
+                <td><span id="thursday-snack"></span></td>
+                <td><span id="thursday-lunch"></span></td>
+                <td><span id="thursday-snack2"></span></td>
+                <td><span id="thursday-dinner"></span></td>
+              </tr>
+              <tr>
+                <td>Friday</td>
+                <td><span id="friday-breakfast"></span></td>
+                <td><span id="friday-snack"></span></td>
+                <td><span id="friday-lunch"></span></td>
+                <td><span id="friday-snack2"></span></td>
+                <td><span id="friday-dinner"></span></td>
+              </tr>
+              <tr>
+                <td>Saturday</td>
+                <td><span id="saturday-breakfast"></span></td>
+                <td><span id="saturday-snack"></span></td>
+                <td><span id="saturday-lunch"></span></td>
+                <td><span id="saturday-snack2"></span></td>
+                <td><span id="saturday-dinner"></span></td>
+              </tr>
+              <tr>
+                <td>Sunday</td>
+                <td><span id="sunday-breakfast"></span></td>
+                <td><span id="sunday-snack"></span></td>
+                <td><span id="sunday-lunch"></span></td>
+                <td><span id="sunday-snack2"></span></td>
+                <td><span id="sunday-dinner"></span></td>
+              </tr>
+
+        </table>
+        <!-- CLEAR -->
+        <button onclick="clearPlanner()">Clear Planner</button>
+
+        <br> <!-- New Line -->
+
+        <!-- PRINT -->
+        <button onclick="window.print()">Print Planner</button>
+
+        <script>
+            // --------------------------------
+            // Get Info from user -------------
+            function populateUserInfo() {
+                const email = localStorage.getItem('email');
+                const name = localStorage.getItem('name');
+                const weeklyGoal = localStorage.getItem('weeklyGoal');
+
+                document.getElementById('user-email').innerText = email;
+                document.getElementById('user-name').innerText = name;
+                document.getElementById('user-weekly-goal').innerText = weeklyGoal;
+            }
+
+            function populateMealPlan() {
+            const mealTable = document.getElementById('mealTable');
+            const rows = mealTable.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                const day = cells[0].innerText;
+
+            cells[1].querySelector('span').innerText = localStorage.getItem(`meal_${day}_breakfast`);
+            cells[2].querySelector('span').innerText = localStorage.getItem(`meal_${day}_snack`);
+            cells[3].querySelector('span').innerText = localStorage.getItem(`meal_${day}_lunch`);
+            cells[4].querySelector('span').innerText = localStorage.getItem(`meal_${day}_snack2`);
+            cells[5].querySelector('span').innerText = localStorage.getItem(`meal_${day}_dinner`);
+                }
+            }
+
+            // CALL FUNC TO START THE FUNNY!
+            populateUserInfo(); //userinfo
+            populateMealPlan(); //meal data
+
+            // Removes all the stuff from the table
+            function clearPlanner() {
+            const mealTable = document.getElementById('mealTable');
+            const rows = mealTable.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                const day = rows[i].getElementsByTagName('td')[0].innerText;
+                localStorage.removeItem(`meal_${day}_breakfast`);
+                localStorage.removeItem(`meal_${day}_snack`);
+                localStorage.removeItem(`meal_${day}_lunch`);
+                localStorage.removeItem(`meal_${day}_snack2`);
+                localStorage.removeItem(`meal_${day}_dinner`);
+            }
+
+            // New
+            populateMealPlan();
+    }
+        </script>
+    </div>
+</body>
+</html>

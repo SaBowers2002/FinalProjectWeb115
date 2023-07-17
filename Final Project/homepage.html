@@ -5,9 +5,59 @@
 
 <!---------------------------------------->
 <head>
-    <script src="script.js"></script>
+    <script src="projectJS.js"></script>
     <title>WEB-115 Final Project</title>
     <link rel="stylesheet" href="styles.css">
+
+    <script>
+      // SAVE DATA
+      function saveUserInput() {
+
+          // EMAIL - NAME - GOAL
+          localStorage.setItem('email', document.getElementById('email').value);
+          localStorage.setItem('name', document.getElementById('name').value);
+          localStorage.setItem('weeklyGoal', document.getElementById('goal').value);
+
+          // MONDAY - SUNDAY 
+          const mealTable = document.getElementById('mealTable');
+        const rows = mealTable.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            const day = cells[0].innerText;
+            const breakfast = cells[1].getElementsByTagName('input')[0].value;
+            const snack = cells[2].getElementsByTagName('input')[0].value;
+            const lunch = cells[3].getElementsByTagName('input')[0].value;
+            const snack2 = cells[4].getElementsByTagName('input')[0].value;
+            const dinner = cells[5].getElementsByTagName('input')[0].value;
+
+            localStorage.setItem(`meal_${day}_breakfast`, breakfast);
+            localStorage.setItem(`meal_${day}_snack`, snack);
+            localStorage.setItem(`meal_${day}_lunch`, lunch);
+            localStorage.setItem(`meal_${day}_snack2`, snack2);
+            localStorage.setItem(`meal_${day}_dinner`, dinner);
+        }
+      }
+  
+      // GO TO THE FUNNY PAGE
+      function goToMealPage() {
+          saveUserInput();
+
+      //--------------------------------------
+      // EMAIL VALIDATION --------------------
+      var email = document.getElementById("email").value;
+
+      var emailRegex = /^\S+@\S+\.\S+$/;
+      if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+      }
+
+      var email = document.getElementById('email').value;
+
+          window.location.href = 'meal.html';
+      }
+  </script>
 </head>
 <!---------------------------------------->
 
@@ -20,10 +70,29 @@
             <!-- Banner Image -->
             <img src="Images/Perfectly Portioned Fitness.png" alt="Banner" class="center">
         </div>
+
+        <!--- INFO STUFF --->
+        <!---------------------------------------->
+        <div>
+          <h2>User Information</h2>
+          <table>
+            <tr>
+              <th>Email:</th>
+              <td><input type="text" id="email"></td>
+
+              <th>Name:</th>
+              <td><input type="text" id="name"></td>
+
+              <th>Weekly Goal:</th>
+              <td><input type="text" id="goal"></td>
+            </tr>
+          </table>
+      </div>
+
         <!--- TABLE --->
         <!---------------------------------------->
         <h2>Meal Plan</h2>
-        <table>
+        <table id="mealTable">
           <tr>
             <th>Day</th>
             <th>Breakfast</th>
@@ -90,7 +159,7 @@
           </tr>
         </table>
 
-        <button onclick="displayMealPlan()">Plan your meal</button>
+        <button onclick="goToMealPage()">Plan your meal</button>
     </div>
 
 </body>
